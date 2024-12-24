@@ -112,9 +112,7 @@ public class redBackboardAuton extends LinearOpMode {
         if (tickID == 0) { // middle tick
             bad.drive(50);
             sleep(2000);
-            robot.intakeMotor.setPower(-0.7);
             sleep(500);
-            robot.intakeMotor.setPower(0.0);
             bad.drive(-43);
             sleep(2000);
         } else if (tickID == 1) { // left tick

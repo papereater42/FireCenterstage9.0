@@ -124,9 +124,7 @@ public class blueBackboardAuton extends LinearOpMode {
         if (tickID == 0) { // middle tick
             bad.drive(60);
             sleep(2000);
-            robot.intakeMotor.setPower(-0.6);
             sleep(500);
-            robot.intakeMotor.setPower(0.0);
             bad.drive(-55);
             sleep(2000);
             bad.turn(-86);
@@ -138,9 +136,7 @@ public class blueBackboardAuton extends LinearOpMode {
             sleep(500);
             bad.drive(48);
             sleep(2000);
-            robot.intakeMotor.setPower(-0.7);
             sleep(500);
-            robot.intakeMotor.setPower(0.0);
             bad.drive(-40);
             sleep(2000);
             bad.turn(13);

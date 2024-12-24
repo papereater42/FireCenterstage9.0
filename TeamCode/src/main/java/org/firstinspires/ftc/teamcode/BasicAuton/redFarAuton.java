@@ -126,9 +126,7 @@ public class redFarAuton extends LinearOpMode {
         if (tickID == 0) { // middle tick
             bad.drive(63);
             sleep(2000);
-            robot.intakeMotor.setPower(-0.7);
             sleep(500);
-            robot.intakeMotor.setPower(0.0);
             bad.drive(-59);
             sleep(2000);
             bad.turn(79);
@@ -140,9 +138,7 @@ public class redFarAuton extends LinearOpMode {
             sleep(500);
             bad.drive(50);
             sleep(2000);
-            robot.intakeMotor.setPower(-0.4);
             sleep(500);
-            robot.intakeMotor.setPower(0.0);
             bad.drive(-44);
             sleep(2000);
             bad.turn(13);
