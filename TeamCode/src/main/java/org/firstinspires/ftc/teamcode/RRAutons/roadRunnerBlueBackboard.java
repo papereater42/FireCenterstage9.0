@@ -113,11 +113,8 @@ public class roadRunnerBlueBackboard extends LinearOpMode {
             // camera queries if there are more than 500 white pixels then drop
 //            parkLeft = (pd.getTotalPixelValues() > 500) ? true : false;
             if (parkLeft) {
-                robot.intakeMotor.setPower(-0.7);
                 sleep(1000);
-                robot.intakeMotor.setPower(0.0);
                 sleep(200);
-                robot.doorServo.setPower(-0.8);
                 drive.followTrajectorySequence(scoreFromLeft);
                 score(robot);
                 drive.followTrajectorySequence(parkFromLeft);
@@ -130,11 +127,8 @@ public class roadRunnerBlueBackboard extends LinearOpMode {
 //            parkMid = () ? true : false;
             if (parkMid) {
                 drive.followTrajectorySequence(moveBackMid);
-                robot.intakeMotor.setPower(-0.7);
                 sleep(1000);
-                robot.intakeMotor.setPower(0.0);
                 sleep(200);
-                robot.doorServo.setPower(-0.8);
                 drive.followTrajectorySequence(pushPixelMid);
                 drive.followTrajectorySequence(scoreFromMiddle);
                 score(robot);
@@ -148,11 +142,6 @@ public class roadRunnerBlueBackboard extends LinearOpMode {
 //            recognized = () ? true : false;
             if (parkRight) {
                 drive.followTrajectorySequence(backUpRight);
-                robot.intakeMotor.setPower(-0.7);
-                sleep(1000);
-                robot.intakeMotor.setPower(0.0);
-                sleep(200);
-                robot.doorServo.setPower(-0.8);
                 drive.followTrajectorySequence(pushPixelRight);
                 drive.followTrajectorySequence(scoreFromRight);
                 score(robot);
@@ -191,25 +180,7 @@ public class roadRunnerBlueBackboard extends LinearOpMode {
 
     public void score(FireHardwareMap robot) {
         int duration = 1700;
-        robot.slideRightMotor.setPower(0.9);
-        robot.slideLeftMotor.setPower(0.9);
-        sleep(duration);
-        robot.slideLeftMotor.setPower(0.0);
-        robot.slideRightMotor.setPower(0.0);
-        sleep(500);
-        robot.boxLeftServo.setPosition(0.3);
-        robot.boxRightServo.setPosition(0.3);
-        sleep(1000);
-        robot.doorServo.setPower(0.3);
-        sleep(1000);
-        robot.boxLeftServo.setPosition(0.0);
-        robot.boxRightServo.setPosition(0.0);
-        sleep(500);
-        robot.slideRightMotor.setPower(-0.9);
-        robot.slideLeftMotor.setPower(-0.9);
-        sleep(duration-500);
-        robot.slideLeftMotor.setPower(0.0);
-        robot.slideRightMotor.setPower(0.0);
+        
     }
 
 

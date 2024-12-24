@@ -48,12 +48,6 @@ public class LinearTeleOp extends LinearOpMode {
     public void runOpMode() {
         HW = new FireHardwareMap(this.hardwareMap);
 
-        HW.doorServo.setPower(0.0);
-
-        //servo = hardwareMap.get(ServoImplEx.class, "left_hand");
-        //servo.setPwmRange(range);
-
-
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.addData("Last updated: ", "");
@@ -61,9 +55,6 @@ public class LinearTeleOp extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-
-        boolean separated = false;
-        boolean hookUp = false;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -77,6 +68,7 @@ public class LinearTeleOp extends LinearOpMode {
             //2 = Purple 290, 287, 360
             // 3 = Yellow 248, 308, 146
 
+            /*
             if (HW.color.green() <= 752 && HW.color.green()>=562 && HW.color.red() <= 681 && HW.color.red() >= 581 && HW.color.blue()<=678 && HW.color.blue()>=578 ){
                 HW.led.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
             } if (HW.color.green() <= 260 && HW.color.green()>=160 && HW.color.red() <= 170 && HW.color.red() >= 70 && HW.color.blue()<=170 && HW.color.blue()>=70) {
@@ -89,6 +81,7 @@ public class LinearTeleOp extends LinearOpMode {
                 HW.led.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
             }
 
+             */
 
 
 
@@ -111,10 +104,12 @@ public class LinearTeleOp extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower   = axial - lateral + yaw;
             double rightBackPower  = axial + lateral - yaw;
-            double slidePower;
-            double intakeWheelPower = gamepad1.right_trigger - gamepad1.left_trigger;
 
-            double hangMotorPower = 0;
+            double slidePower;
+            double susanPower;
+
+            double armPower = 0;
+            double clawPower = 0;
 
 
             // Normalize the values so no wheel power exceeds 100%
@@ -144,22 +139,7 @@ public class LinearTeleOp extends LinearOpMode {
                 rightBackPower  /= 2;
             }
 
-
-            //hook servo falke CR
-            if(gamepad1.left_bumper) {
-                if (gamepad1.dpad_left) {
-                    hook = 1;
-                } else if (gamepad1.dpad_right) {
-                    hook = -1;
-                } else {
-                    hook = 0;
-                }
-                HW.leftHook.setPosition(HW.leftHook.getPosition() + hook);
-                HW.rightHook.setPosition(HW.rightHook.getPosition() - hook);
-
-           }
-
-
+          /*
             double doorServoPower = HW.doorServo.getPower();
 
             if (gamepad2.b) {
@@ -177,26 +157,9 @@ public class LinearTeleOp extends LinearOpMode {
             } else if (gamepad1.b) {
                 airplaneServoPower = -0.8;
             } else {
-                airplaneServoPower = 0;
-            }
-
-            double leftRightServoPosition = HW.boxLeftServo.getPosition();
-            if (gamepad2.right_trigger > 0.1) {
-                leftRightServoPosition = 0.3;
-//                if (leftRightServoPosition > 0.6) leftRightServoPosition = 0.6;
-            } else if (gamepad2.left_trigger > 0.1) {
-                leftRightServoPosition = 0.0;
-            } else {
-                if ((-gamepad2.right_stick_y) > 0.1 || (-gamepad2.right_stick_y) < -0.1)
-                    leftRightServoPosition += leftRightServoSpeed * (-gamepad2.right_stick_y);
-
-            }
-
-            if (leftRightServoPosition < 0.0) leftRightServoPosition = 0.0;
-            else if (leftRightServoPosition > 0.3) leftRightServoPosition = 0.3;
-
-//            double separatorServoPosition = HW.separatorServo.getPosition();
-//            if (gamepad2.left_bumper) {
+              ]
+               =['irplaneServoPower = 0;
+            }-oad2.left_bumper) {
 //                separatorServoPosition = 0.3;
 //            }  else if (gamepad2.right_bumper) {
 //                separatorServoPosition = 0.7;
@@ -210,80 +173,92 @@ public class LinearTeleOp extends LinearOpMode {
                 hangMotorPower = -0.9;
             }
 
+
+
+           */
+
+            if (gamepad2.a) {
+                armPower = -0.3;
+            } else if (gamepad2.y) {
+                armPower = 0.7;
+            } else {
+                armPower = 0;
+            }
+
+            double susanPosition = HW.susanMotor.getCurrentPosition();
+
+            if (gamepad1.dpad_left) {
+                susanPower = 0.5;
+            } else if (gamepad1.dpad_right) {
+                susanPower = -0.5;
+            } else {
+                susanPower = 0;
+            }
+
             if (gamepad2.dpad_up) {
-                slidePower = 0.8;
+                slidePower = 0.9;
             } else if (gamepad2.dpad_down) {
-                slidePower = -0.8;
+                slidePower = -0.9;
             } else {
                 slidePower = 0;
             }
 
-//            axial2 = axial2/1.5;
+            if (gamepad2.b) {
+                slidePower = 0.9;
+            }  else if (gamepad2.x) {
+                slidePower = -0.9;
+            }  else {
+                slidePower = 0;
+            }
+
+//            if (gamepad2.dpad_right) {
+//                HW.armServo.setPosition(0.5);
+//            } else if (gamepad2.dpad_left) {
+//                HW.armServo.setPosition(0);
+//            }
+
+//            double armServoPosition = HW.armServo.getPosition();
 //
-//            lateral2 = lateral2/1.5;
-//
+//            if (gamepad2.y) {
+//                armServoPosition = 0.0;
+//            } else if (gamepad2.a) {
+//                armServoPosition = 0.5;
+//            }
+
+            if (gamepad2.right_bumper) {
+                clawPower = 0.8;
+            } else {
+                clawPower = -0.2;
+            }
+
             yaw2 = yaw2/1.5;
-
-//            if (isStrafing)
-//                rightBackPower *= backRightMultiplier;
-
-
 
             // Send calculated power to wheels
             HW.frontLeftMotor.setPower(leftFrontPower);
             HW.frontRightMotor.setPower(rightFrontPower);
             HW.backLeftMotor.setPower(leftBackPower*1.1);
             HW.backRightMotor.setPower(rightBackPower*1.1);
-            HW.intakeMotor.setPower(intakeWheelPower/1.01);
-//            HW.actuatorMotor.setPower(yaw2);
 
-            HW.boxLeftServo.setPosition(leftRightServoPosition);
-            HW.boxRightServo.setPosition(leftRightServoPosition);
+            HW.slideMotor.setPower(slidePower);
+            HW.susanMotor.setPower(susanPower);
 
-            HW.slideLeftMotor.setPower(slidePower);
-            HW.slideRightMotor.setPower(slidePower);
+            HW.clawServo.setPower(clawPower);
+            // HW.armServo.setPosition(armServoPosition);
 
-
-            HW.doorServo.setPower(doorServoPower);
-//            HW.boxRightServo.setPower(leftRightServoPower*0.5);
-//            HW.boxLeftServo.setPower(leftRightServoPower*0.45*0.5);
-//            HW.separatorServo.setPosition(separatorServoPosition);
-            HW.airplaneServo.setPower(airplaneServoPower);
-
-            HW.stringMotor.setPower(hangMotorPower);
+            HW.armServo.setPower(armPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            /*
             telemetry.addData("LED GREEN", HW.color.green());
             telemetry.addData("LED red", HW.color.red());
             telemetry.addData("LED blue", HW.color.blue());
             telemetry.addData("LED ARGB", HW.color.argb());
 
-//            telemetry.addData("Servo  left/Right", "%4.2f, %4.2f", axial2, axial2);
-//            telemetry.addData("Intake Operational: ", HW.intakeMotor.isBusy());
-//            telemetry.addData("Intake Number: ", i);
-//            telemetry.addData("Current frontLeftMotor Encoder Position: ", HW.frontLeftMotor.getCurrentPosition());
-//            telemetry.addData("frontLeftMotor Operational: ", HW.frontLeftMotor.isBusy());
-//            telemetry.addData("Current frontRightMotor Encoder Position: ", HW.frontRightMotor.getCurrentPosition());
-//            telemetry.addData("frontRightMotor Operational: ", HW.frontRightMotor.isBusy());
-//            telemetry.addData("Current backLeftMotor Encoder Position: ", HW.backLeftMotor.getCurrentPosition());
-//            telemetry.addData("backLeftMotor Operational: ", HW.backLeftMotor.isBusy());
-//            telemetry.addData("Current backRightMotor Encoder Position: ", HW.backRightMotor.getCurrentPosition());
-//            telemetry.addData("backRightMotor Operational: ", HW.backRightMotor.isBusy());
-            telemetry.addData("slideLeftMotorTicks target ", HW.slideLeftMotor.getTargetPosition());
-            telemetry.addData("slideLeftMotor current ", HW.slideLeftMotor.getCurrentPosition());
-            telemetry.addData("slideRightMotor current ", HW.slideRightMotor.getCurrentPosition());
-//            telemetry.addData("boxLeftServo pow: ", HW.boxLeftServo.getPower());
-//            telemetry.addData("doorServo power: ", HW.doorServo.getPower());
-//            telemetry.addData("doorServo exists: ", HW.doorServo.getDeviceName());
-//            telemetry.addData("light: ", HW.color.getRawLightDetectedMax());
-            telemetry.addData("boxLeftServo Position: ", HW.boxLeftServo.getPosition());
-            telemetry.addData("boxRightServo Position: ", HW.boxRightServo.getPosition());
-            telemetry.addData("boxServos target: ", leftRightServoPosition);
-//            telemetry.addData("separatorServo current position: ", HW.separatorServo.getPosition());
-            telemetry.addData("doorServo power: ", HW.doorServo.getPower());
+             */
+
             telemetry.update();
 
         }
