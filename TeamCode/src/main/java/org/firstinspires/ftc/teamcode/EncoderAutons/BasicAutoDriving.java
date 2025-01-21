@@ -1,6 +1,5 @@
-package org.firstinspires.ftc.teamcode.BasicAuton;
+package org.firstinspires.ftc.teamcode.EncoderAutons;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
@@ -14,9 +13,9 @@ public class BasicAutoDriving {
     //TODO: tune this again for this bot
     double ticksPerCentimeterDrive = 17.8;
     double ticksPerCentimeterStrafe = 21.3;
-    double ticksPerDegree = 12;
+    double ticksPerDegree = 12;  
 
-    int error = 8;
+    int error = 0;
 
     public BasicAutoDriving (DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight)
     {
@@ -24,6 +23,11 @@ public class BasicAutoDriving {
         frontRightMotor = frontRight;
         backLeftMotor = backLeft;
         backRightMotor = backRight;
+//
+//        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+//        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+//        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+//        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
 
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -45,13 +49,11 @@ public class BasicAutoDriving {
         backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeftMotor.setPower(0.5);
+        frontLeftMotor.setPower(0.56);  // 0.56 adjust for motor weakness
         frontRightMotor.setPower(0.5);
-        backLeftMotor.setPower(0.5);
+        backLeftMotor.setPower(0.56);  // 0.56
         backRightMotor.setPower(0.5);
     }
-
-
 
     public void drive (double cm){
         int frontLeftTargetPosition = frontLeftMotor.getCurrentPosition() + (int) (cm*ticksPerCentimeterDrive);
@@ -75,15 +77,6 @@ public class BasicAutoDriving {
         frontRightMotor.setTargetPosition(frontRightTargetPosition);
         backLeftMotor.setTargetPosition(backLeftTargetPosition);
         backRightMotor.setTargetPosition(backRightTargetPosition);
-
-        while (Math.abs(frontLeftTargetPosition - frontLeftMotor.getCurrentPosition()) > error ||
-                Math.abs(frontRightTargetPosition - frontRightMotor.getCurrentPosition()) > error ||
-                Math.abs(backLeftTargetPosition - backLeftMotor.getCurrentPosition()) > error ||
-                Math.abs(backRightTargetPosition - backRightMotor.getCurrentPosition()) > error) {
-
-            int x = 0;
-
-        }
     }
 
     public void turn (double degrees) {
@@ -97,7 +90,4 @@ public class BasicAutoDriving {
         backLeftMotor.setTargetPosition(backLeftTargetPosition);
         backRightMotor.setTargetPosition(backRightTargetPosition);
     }
-
-
-
 }

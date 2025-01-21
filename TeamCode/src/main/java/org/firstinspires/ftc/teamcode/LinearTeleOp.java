@@ -84,7 +84,7 @@ public class LinearTeleOp extends LinearOpMode {
              */
 
 
-
+            /*
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x * 1.1;
@@ -105,8 +105,20 @@ public class LinearTeleOp extends LinearOpMode {
             double leftBackPower   = axial - lateral + yaw;
             double rightBackPower  = axial + lateral - yaw;
 
+             */
+
+            double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
+            double x = gamepad1.left_stick_x;
+            double rx = gamepad1.right_stick_x;
+
+            double leftFrontPower  = y + x + rx;
+            double rightFrontPower = y - x - rx;
+            double leftBackPower   = y - x + rx;
+            double rightBackPower  = y + x - rx;
+
             double slidePower;
             double susanPower;
+            double actuatorPower;
 
             double armPower = 0;
             double clawPower = 0;
@@ -126,7 +138,7 @@ public class LinearTeleOp extends LinearOpMode {
 //                axial2 /=max;
                 i /= max;
 //                (lateral2)/=max;
-                yaw2 /=max;
+                rx /=max;
             }
 
             if (gamepad1.right_bumper) {
@@ -185,8 +197,6 @@ public class LinearTeleOp extends LinearOpMode {
                 armPower = 0;
             }
 
-            double susanPosition = HW.susanMotor.getCurrentPosition();
-
             if (gamepad1.dpad_left) {
                 susanPower = 0.5;
             } else if (gamepad1.dpad_right) {
@@ -195,20 +205,22 @@ public class LinearTeleOp extends LinearOpMode {
                 susanPower = 0;
             }
 
-            if (gamepad2.dpad_up) {
+            if (gamepad2.dpad_up && HW.slideMotor.getCurrentPosition() < 9000) {
                 slidePower = 0.9;
-            } else if (gamepad2.dpad_down) {
+            } else if (gamepad2.dpad_down) {  //  && HW.slideMotor.getCurrentPosition() > 0
                 slidePower = -0.9;
             } else {
                 slidePower = 0;
             }
 
+
+
             if (gamepad2.b) {
-                slidePower = 0.9;
+                actuatorPower = 0.9;
             }  else if (gamepad2.x) {
-                slidePower = -0.9;
+                actuatorPower = -0.9;
             }  else {
-                slidePower = 0;
+                actuatorPower = 0;
             }
 
 //            if (gamepad2.dpad_right) {
@@ -231,7 +243,7 @@ public class LinearTeleOp extends LinearOpMode {
                 clawPower = -0.2;
             }
 
-            yaw2 = yaw2/1.5;
+            rx = rx/1.5;
 
             // Send calculated power to wheels
             HW.frontLeftMotor.setPower(leftFrontPower);
@@ -241,6 +253,7 @@ public class LinearTeleOp extends LinearOpMode {
 
             HW.slideMotor.setPower(slidePower);
             HW.susanMotor.setPower(susanPower);
+            HW.actuatorMotor.setPower(actuatorPower);
 
             HW.clawServo.setPower(clawPower);
             // HW.armServo.setPosition(armServoPosition);
@@ -251,6 +264,12 @@ public class LinearTeleOp extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Encoder Positions", "FL: %d, FR: %d, BL: %d, BR: %d",
+                    HW.frontLeftMotor.getCurrentPosition(),
+                    HW.frontRightMotor.getCurrentPosition(),
+                    HW.backLeftMotor.getCurrentPosition(),
+                    HW.backRightMotor.getCurrentPosition());
+            telemetry.addData("Slide Motor Position", "%d", HW.slideMotor.getCurrentPosition());
             /*
             telemetry.addData("LED GREEN", HW.color.green());
             telemetry.addData("LED red", HW.color.red());

@@ -36,6 +36,7 @@ public class FireHardwareMap {
     public BNO055IMU imu = null;
 
     public RevBlinkinLedDriver led = null;
+    public RevBlinkinLedDriver dcled = null;
 
 
     //Hardware Map object
@@ -57,6 +58,7 @@ public class FireHardwareMap {
         backLeftMotor = HardwareMap.get(DcMotor.class, "backLeftMotor");
         slideMotor = HardwareMap.get(DcMotor.class, "slideMotor");
         susanMotor = HardwareMap.get(DcMotor.class, "susanMotor");
+        actuatorMotor = HardwareMap.get(DcMotor.class, "actuatorMotor" );
         // imu = HardwareMap.get(BNO055IMU.class, "imuex");
         // led = HardwareMap.get(RevBlinkinLedDriver.class, "led");
         // color = HardwareMap.get(ColorRangeSensor.class, "color");
@@ -65,14 +67,12 @@ public class FireHardwareMap {
         armServo = HardwareMap.get(CRServo.class, "armServo");
         clawServo = HardwareMap.get(CRServo.class, "clawServo");
 
-        //Making actuator
-        actuatorMotor = HardwareMap.get(DcMotor.class, "actuatorMotor" );
-
         //Set up motor direction
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+
 
         slideMotor.setDirection(DcMotor.Direction.REVERSE);
         susanMotor.setDirection(DcMotor.Direction.REVERSE);
