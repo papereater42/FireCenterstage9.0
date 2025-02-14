@@ -215,17 +215,19 @@ public class LinearTeleOp extends LinearOpMode {
 
 
 
-            if (gamepad2.b) {
-                actuatorPower = 0.9;
-            }  else if (gamepad2.x) {
-                actuatorPower = -0.9;
+            if (gamepad2.b ) { // && HW.actuatorMotor.getCurrentPosition() < 0
+                // down
+                actuatorPower = 1.0;
+            }  else if (gamepad2.x ) { // && HW.actuatorMotor.getCurrentPosition() > -100000
+                // up
+                actuatorPower = -1.0;
             }  else {
                 actuatorPower = 0;
             }
 
 //            if (gamepad2.dpad_right) {
 //                HW.armServo.setPosition(0.5);
-//            } else if (gamepad2.dpad_left) {
+//            } else if (gamepad2.dpad_left) {`
 //                HW.armServo.setPosition(0);
 //            }
 
@@ -236,6 +238,7 @@ public class LinearTeleOp extends LinearOpMode {
 //            } else if (gamepad2.a) {
 //                armServoPosition = 0.5;
 //            }
+
 
             if (gamepad2.right_bumper) {
                 clawPower = 0.8;
@@ -262,14 +265,15 @@ public class LinearTeleOp extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.addData("Encoder Positions", "FL: %d, FR: %d, BL: %d, BR: %d",
-                    HW.frontLeftMotor.getCurrentPosition(),
-                    HW.frontRightMotor.getCurrentPosition(),
-                    HW.backLeftMotor.getCurrentPosition(),
-                    HW.backRightMotor.getCurrentPosition());
+//            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+//            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+//            telemetry.addData("Encoder Positions", "FL: %d, FR: %d, BL: %d, BR: %d",
+//                    HW.frontLeftMotor.getCurrentPosition(),
+//                    HW.frontRightMotor.getCurrentPosition(),
+//                    HW.backLeftMotor.getCurrentPosition(),
+//                    HW.backRightMotor.getCurrentPosition());
             telemetry.addData("Slide Motor Position", "%d", HW.slideMotor.getCurrentPosition());
+            telemetry.addData("Acutaor Motor Positino", "%d", HW.actuatorMotor.getCurrentPosition());
             /*
             telemetry.addData("LED GREEN", HW.color.green());
             telemetry.addData("LED red", HW.color.red());

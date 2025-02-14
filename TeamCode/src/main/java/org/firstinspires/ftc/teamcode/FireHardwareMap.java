@@ -58,6 +58,7 @@ public class FireHardwareMap {
         backLeftMotor = HardwareMap.get(DcMotor.class, "backLeftMotor");
         slideMotor = HardwareMap.get(DcMotor.class, "slideMotor");
         susanMotor = HardwareMap.get(DcMotor.class, "susanMotor");
+        susanMotor = HardwareMap.get(DcMotor.class, "susanMotor");
         actuatorMotor = HardwareMap.get(DcMotor.class, "actuatorMotor" );
         // imu = HardwareMap.get(BNO055IMU.class, "imuex");
         // led = HardwareMap.get(RevBlinkinLedDriver.class, "led");

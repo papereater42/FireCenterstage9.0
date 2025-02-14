@@ -48,7 +48,7 @@ public class FieldOriented extends LinearOpMode {
         //servo.setPwmRange(range);
 
 
-        // Wait for the game to start (driver presses PLAY)
+        // Wait for the game to (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
